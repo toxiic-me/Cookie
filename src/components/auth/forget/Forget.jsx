@@ -11,7 +11,7 @@ import Entypo from 'react-native-vector-icons/Entypo'
 
 const Forget = ({ navigation }) => {
     const [showBtnLoader, setShowBtnLoader] = useState(false);
-    const [sectionCount, setSectionCount] = useState(1)``
+    const [section, setSection] = useState(1)
 
     const toast = (type, message) => {
         Toast.show({
@@ -21,25 +21,25 @@ const Forget = ({ navigation }) => {
         });
     }
     const handleLogin = () => {
-        setShowLoginLoader(true)
+        showBtnLoader(true)
         setTimeout(() => {
             toast('success', 'Login Successfull.')
-            setShowLoginLoader(false)
+            setShowBtnLoader(false)
         }, 2000);
     }
     return (
         <View style={forgetStyles.main}>
             <ImageBackground source={require('../../../../assets/images/cookie.jpg')} resizeMode='cover' style={forgetStyles.backgroundImg}>
-                {sectionCount === 1 ? <Section1 navigation={navigation} handleLogin={handleLogin} showBtnLoader={showBtnLoader} /> : null}
-                {sectionCount === 2 ? <Section2 navigation={navigation} handleLogin={handleLogin} showBtnLoader={showBtnLoader} /> : null}
-                {sectionCount === 3 ? <Section3 navigation={navigation} handleLogin={handleLogin} showBtnLoader={showBtnLoader} /> : null}
+                {section === 1 ? <Section1 handleLogin={handleLogin} showBtnLoader={showBtnLoader} /> : null}
+                {section === 2 ? <Section2 handleLogin={handleLogin} showBtnLoader={showBtnLoader} /> : null}
+                {section === 3 ? <Section3 handleLogin={handleLogin} showBtnLoader={showBtnLoader} /> : null}
 
                 <Toast />
             </ImageBackground>
         </View>)
 }
 
-const Section1 = ({ handleLogin, navigation, showBtnLoader }) => {
+const Section1 = ({ handleLogin, showBtnLoader }) => {
     return (
         <View style={forgetStyles.formWraper}>
             <View style={forgetStyles.headWrapper}>
@@ -70,7 +70,7 @@ const Section1 = ({ handleLogin, navigation, showBtnLoader }) => {
     )
 }
 
-const Section2 = ({ handleLogin, navigation, showBtnLoader }) => {
+const Section2 = ({ handleLogin, showBtnLoader }) => {
     return (
         <View style={forgetStyles.formWraper}>
             <View style={forgetStyles.headWrapper}>
@@ -95,7 +95,7 @@ const Section2 = ({ handleLogin, navigation, showBtnLoader }) => {
             </View>
 
             <View style={forgetStyles.extraLinkWrapper}>
-                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <TouchableOpacity >
                     <Text style={forgetStyles.extraLink}>Resend verification code?</Text>
                 </TouchableOpacity>
             </View>
@@ -111,7 +111,7 @@ const Section2 = ({ handleLogin, navigation, showBtnLoader }) => {
     )
 }
 
-const Section3 = ({ handleLogin, navigation, showBtnLoader }) => {
+const Section3 = ({ handleLogin, showBtnLoader }) => {
     return (
         <View style={forgetStyles.formWraper}>
             <View style={forgetStyles.headWrapper}>

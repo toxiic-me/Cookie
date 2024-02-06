@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import Config from 'react-native-config'
 import { Text, View, ImageBackground, TextInput, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useDispatch } from 'react-redux'
 import Toast from 'react-native-toast-message'
 import signupStyles from './signupStyles'
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -10,10 +12,10 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
 
 export default Signup = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [showBtnLoader, setshowBtnLoader] = useState(false);
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [otp, setOtp] = useState(Math.floor(Math.random() * 100000000).toString().slice(0, 5))
-  const [userExist, setUserExist] = useState(false);
   const [showPass, setShowPass] = useState(false)
   const [showConfirmPass, setShowConfirmPass] = useState(false)
   const [formData, setFormData] = useState({
@@ -32,9 +34,10 @@ export default Signup = ({ navigation }) => {
     });
   }
 
+
   const doesUserExist = async (email, username) => {
     try {
-      let response = await fetch('http://192.168.150.174:8080/doesUserExist', {
+      let response = await fetch(`${Config.BASE_URL}/doesUserExist`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, username })
@@ -53,7 +56,7 @@ export default Signup = ({ navigation }) => {
 
   const sendCode = async (email, otp) => {
     try {
-      let response = await fetch('http://192.168.150.174:8080/sendOtp', {
+      let response = await fetch(`${Config.BASE_URL}/sendOtp`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp })
@@ -72,7 +75,7 @@ export default Signup = ({ navigation }) => {
     setshowBtnLoader(true)
     if (code === otp) {
       let user = { email, password, username };
-      let response = await fetch('http://192.168.150.174:8080/signup', {
+      let response = await fetch(`${Config.BASE_URL}/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
@@ -80,9 +83,20 @@ export default Signup = ({ navigation }) => {
       let result = await response.json();
       toast('success', result.message);
       setshowBtnLoader(false)
+      await AsyncStorage.setItem('token', result.token)
+      dispatch({
+        type: "addToken",
+        token: result.token
+      })
+      dispatch({
+        type: "loginUser",
+      })
       setTimeout(() => {
         navigation.navigate('Login')
       }, 2000)
+    } else {
+      toast('error', 'Invalid verification code')
+      setshowBtnLoader(false)
     }
   }
 
