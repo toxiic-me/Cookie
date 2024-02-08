@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { View, Text, Button } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
-const Home = () => {
+const MainActivity = () => {
     const { email, username, userImage } = useSelector(state => state.userDataReducer)
     const dispatch = useDispatch()
     return (
@@ -20,4 +20,4 @@ const Home = () => {
 }
 
 
-export default Home
+export default MainActivity

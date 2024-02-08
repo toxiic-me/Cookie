@@ -50,6 +50,7 @@ export default loginStyles = StyleSheet.create({
         paddingHorizontal: 10
     },
     textInput: {
+        color: 'white',
         borderWidth: 2,
         borderColor: '#0e388e',
         width: 250,
@@ -90,5 +91,9 @@ export default loginStyles = StyleSheet.create({
         borderRadius: 10,
         paddingVertical: 5,
         height: 40
+    },
+    eyeTool: {
+        position: 'absolute',
+        right: 10
     }
 })

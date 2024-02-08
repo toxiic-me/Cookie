@@ -7,7 +7,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Auth from './components/auth/Auth'
-import Home from './components/Home'
+import MainActivity from './components/main/MainActivity'
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -62,7 +62,7 @@ const App = () => {
   return (<>
     {
       isLoading ? <LoadingScreen /> :
-        isUserLoggedIn ? <Home /> : <Auth />
+        isUserLoggedIn ? <MainActivity /> : <Auth />
     }
   </>)
 }
